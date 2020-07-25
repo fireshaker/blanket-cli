@@ -1,0 +1,21 @@
+{
+  "name": "@foundryapp/monitoring-cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "bin": {
+    "monitoring": "./index.js"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "prepublishOnly": "npm version patch --force",
+    "deploy:prod": "npm publish --access=production"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "commander": "^6.0.0",
+    "fs-extra": "^9.0.1"
+  },
+  "author": "FoundryLabs",
+  "license": "ISC"
+}
