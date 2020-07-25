@@ -86,17 +86,19 @@ program
 //   })
 
 program
-  .command('data <functionName>')
+  .command('data [functionName]')
   .option('-p, --project <projectId>')
   .option('-r, --region <region>')
   .option('-t, --tag <tag>')
   .option('-f, --file <file>')
+  .option('-n, --no-default', 'Stops using default projectId and region and queries for all the data.')
   .action(async (functionName, cmdObj) => {
     try {
       const data = await getMonitoringData(
         functionName,
-        cmdObj.projectId || DEFAULT_PROJECT_ID,
-        cmdObj.region || DEFAULT_REGION,
+        cmdObj.projectId || cmdObj.default ? DEFAULT_PROJECT_ID : undefined,
+        cmdObj.region || cmdObj.default ? DEFAULT_REGION : undefined,
+        cmdObj.tag || undefined,
       );
       if (cmdObj.file) {
         fs.writeJSONSync(cmdObj.file, data);
