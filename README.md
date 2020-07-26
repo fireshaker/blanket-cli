@@ -7,15 +7,15 @@
 
 ### Enable monitoring of a function
 
-This enables monitoring of **function** `<functionName>` deployed in the **default project** (`foundry-monitoring`) and **default region** (`us-central1`).
+This enables monitoring of a **function** `<functionName>` deployed in the **default project** (`foundry-monitoring`) and **default region** (`us-central1`).
 
     $ monitoring enable <functionName>
 
-If you want to monitor function deployed in a **different project** then use the `-p` (`--project`) flag followed by the `<projectId>`.
+If you want to monitor a function deployed in a **different project** then use the `-p` (`--project`) flag followed by the `<projectId>`.
 
     $ monitoring enable <functionName> -p <projectId>
 
-If you want to monitor function deployed in a **[different region](https://cloud.google.com/functions/docs/locations)** then use the `-r` (`--region`) flag followed by the region `<region>`.
+If you want to monitor a function deployed in a **[different region](https://cloud.google.com/functions/docs/locations)** then use the `-r` (`--region`) flag followed by the region `<region>`.
 
     $ monitoring enable <functionName> -r <region>
 
@@ -29,7 +29,7 @@ You can use these flags together.
 
 ### Disable monitoring of a function
 
-This disables monitoring of **function** `<functionName>` deployed in the **default project** (`foundry-monitoring`) and **default region** (`us-central1`).
+This disables monitoring of a **function** `<functionName>` deployed in the **default project** (`foundry-monitoring`) and **default region** (`us-central1`).
     
     $ monitoring disable <functionName>
 
