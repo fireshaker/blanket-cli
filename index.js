@@ -14,8 +14,9 @@ const {
 const packageJSON = require('./package.json');
 program.version(packageJSON.version, '-v, --version');
 
-const DEFAULT_PROJECT_ID = 'foundry-monitoring';
+const DEFAULT_PROJECT = 'foundry-monitoring';
 const DEFAULT_REGION = 'us-central1';
+const DEFAULT_TAG = null;
 
 // Use this function to allow repeated usage of flags
 // function collect(val, memo) {
@@ -25,17 +26,18 @@ const DEFAULT_REGION = 'us-central1';
 
 program
   .command('enable <functionName>')
-  .option('-p, --project <projectId>')
-  .option('-r, --region <region>')
-  .option('-t, --tag <tag>')
+  .option('-p, --project <project>', '', DEFAULT_PROJECT)
+  .option('-r, --region <region>', '', DEFAULT_REGION)
+  .option('-t, --tag <tag>', '', DEFAULT_TAG)
   .action(async (functionName, cmdObj) => {
     try {
       const ids = await enableMonitoring(
         functionName,
-        cmdObj.projectId || DEFAULT_PROJECT_ID,
-        cmdObj.region || DEFAULT_REGION,
-        cmdObj.tag || null
+        cmdObj.project,
+        cmdObj.region,
+        cmdObj.tag,
       );
+
       if (ids.length > 0) {
         console.log(`Enabled function "${functionName}" monitoring`);
       } else {
@@ -48,17 +50,18 @@ program
 
 program
   .command('disable <functionName>')
-  .option('-p, --project <projectId>')
-  .option('-r, --region <region>')
-  .option('-t, --tag <tag>')
+  .option('-p, --project <project>', '', DEFAULT_PROJECT)
+  .option('-r, --region <region>', '', DEFAULT_REGION)
+  .option('-t, --tag <tag>', '', DEFAULT_TAG)
   .action(async (functionName, cmdObj) => {
     try {
       const ids = await disableMonitoring(
         functionName,
-        cmdObj.projectId || DEFAULT_PROJECT_ID,
-        cmdObj.region || DEFAULT_REGION,
-        cmdObj.tag || null
+        cmdObj.project,
+        cmdObj.region,
+        cmdObj.tag,
       );
+
       if (ids.length > 0) {
         console.log(`Disabled function "${functionName}" monitoring`);
       } else {
@@ -87,19 +90,20 @@ program
 
 program
   .command('data [functionName]')
-  .option('-p, --project <projectId>')
-  .option('-r, --region <region>')
-  .option('-t, --tag <tag>')
+  .option('-p, --project <project>', '', DEFAULT_PROJECT)
+  .option('-r, --region <region>', '', DEFAULT_REGION)
+  .option('-t, --tag <tag>', '', DEFAULT_TAG)
   .option('-f, --file <file>')
-  .option('-n, --no-default', 'Stops using default projectId and region and queries for all the data.')
+  .option('-n, --no-default', 'Stops using default project and region and queries for all the data.')
   .action(async (functionName, cmdObj) => {
     try {
       const data = await getMonitoringData(
         functionName,
-        cmdObj.projectId || cmdObj.default ? DEFAULT_PROJECT_ID : undefined,
-        cmdObj.region || cmdObj.default ? DEFAULT_REGION : undefined,
-        cmdObj.tag || undefined,
+        cmdObj.default ? undefined : cmdObj.project,
+        cmdObj.default ? undefined : cmdObj.region,
+        cmdObj.default ? undefined : cmdObj.tag,
       );
+
       if (cmdObj.file) {
         fs.writeJSONSync(cmdObj.file, data);
         console.log(`Data (${data.length} entries) successfully written to the file on the path "${cmdObj.file}"`);
